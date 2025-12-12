@@ -1,0 +1,8 @@
+const expensiveCalculation = useMemo(() => {
+    console.log("Calculando...")
+    let result = 0
+    for (let i = 0; i < 100000000; i++) {
+        result += count
+    }
+    return result
+}, [count]) // Solo recalcula cuando count cambia

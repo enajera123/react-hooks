@@ -2,7 +2,8 @@ import { useMemo, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
-
+import code from "@/lib/data/examples/useMemo.txt?raw"
+import { CodeBlock } from "../common/CodeBlock"
 export function UseMemoExample() {
     const [count, setCount] = useState(0)
     const [text, setText] = useState("")
@@ -66,16 +67,7 @@ export function UseMemoExample() {
                     <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <pre className="text-sm overflow-x-auto">
-                        <code>{`const expensiveCalculation = useMemo(() => {
-  console.log("Calculando...")
-  let result = 0
-  for (let i = 0; i < 100000000; i++) {
-    result += count
-  }
-  return result
-}, [count]) // Solo recalcula cuando count cambia`}</code>
-                    </pre>
+                        <CodeBlock code={code} />
                 </CardContent>
             </Card>
         </div>

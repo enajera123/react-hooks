@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
-
+import code from "@/lib/data/examples/useRef.txt?raw"
+import { CodeBlock } from "../common/CodeBlock"
 
 export function UseRefExample() {
-    const [count, setCount] = useState(0)
     const inputRef = useRef<HTMLInputElement>(null)
     const renderCount = useRef(0)
 
@@ -38,42 +38,12 @@ export function UseRefExample() {
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Ejemplo: Contador de Renders</CardTitle>
-                    <CardDescription>useRef no causa re-renders cuando se actualiza</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="text-center space-y-4">
-                        <div className="text-4xl font-bold text-accent">{count}</div>
-                        <p className="text-sm text-muted-foreground">
-                            Este componente se ha renderizado <span className="text-foreground font-bold">{renderCount.current}</span>{" "}
-                            veces
-                        </p>
-                        <Button onClick={() => setCount(count + 1)}>Incrementar Estado (causa re-render)</Button>
-                    </div>
-                </CardContent>
-            </Card>
-
             <Card className="bg-muted/50">
                 <CardHeader>
                     <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <pre className="text-sm overflow-x-auto">
-                        <code>{`const inputRef = useRef<HTMLInputElement>(null)
-const renderCount = useRef(0)
-
-// Actualizar ref no causa re-render
-useEffect(() => {
-  renderCount.current = renderCount.current + 1
-})
-
-// Acceder al elemento DOM
-const focusInput = () => {
-  inputRef.current?.focus()
-}`}</code>
-                    </pre>
+                    <CodeBlock code={code} />
                 </CardContent>
             </Card>
         </div>

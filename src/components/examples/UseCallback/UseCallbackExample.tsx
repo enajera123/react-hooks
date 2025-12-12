@@ -1,7 +1,11 @@
 import { useCallback, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
-import { Button } from "../ui/button"
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../ui/card"
+import { Button } from "../../ui/button"
+import code from "@/lib/data/examples/useCallBack.txt?raw"
+import { CodeBlock } from "../../common/CodeBlock"
+import ChildComponent from "./ChildComponent"
+import { withRenderDetection } from "@/components/common/hoc/withRenderDetection"
+const RenderDetectionChildComponent = withRenderDetection(ChildComponent, { animationType: "border", showCounter: false, skipFirstRender: true })
 export function UseCallbackExample() {
     const [count, setCount] = useState(0)
     const [otherState, setOtherState] = useState(0)
@@ -9,7 +13,13 @@ export function UseCallbackExample() {
     const increment = useCallback(() => {
         setCount((c) => c + 1)
     }, [])
-
+    const handleClick = useCallback(() => {
+        console.log("Botón del hijo clickeado", count)
+    }, [])
+    const handleClickWithoutUseCallback = () => {
+        console.log("Botón del hijo clickeado", count)
+    }
+    console.log("Renderiza padre")
     return (
         <div className="space-y-6">
             <div>
@@ -26,10 +36,11 @@ export function UseCallbackExample() {
                     <CardDescription>La función increment mantiene su referencia entre renders</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    <RenderDetectionChildComponent onClick={handleClickWithoutUseCallback} />
                     <div className="text-center space-y-4">
                         <div className="text-5xl font-bold text-accent">{count}</div>
-                        <div className="flex gap-3">
-                            <Button onClick={increment} size="lg" className="flex-1">
+                        <div className="flex justify-start gap-3">
+                            <Button onClick={increment}>
                                 Incrementar
                             </Button>
                             <Button onClick={() => setCount(0)} variant="outline" size="lg">
@@ -58,17 +69,7 @@ export function UseCallbackExample() {
                     <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <pre className="text-sm overflow-x-auto">
-                        <code>{`// Sin useCallback - se recrea en cada render
-const increment = () => {
-  setCount(c => c + 1)
-}
-
-// Con useCallback - mantiene la referencia
-const increment = useCallback(() => {
-  setCount(c => c + 1)
-}, []) // Dependencias vacías = función estable`}</code>
-                    </pre>
+                    <CodeBlock code={code} language="tsx" />
                 </CardContent>
             </Card>
 

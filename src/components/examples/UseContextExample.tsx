@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
+import code from "@/lib/data/examples/useContext.txt?raw"
+import { CodeBlock } from "../common/CodeBlock"
 const ThemeContext = createContext({ theme: "dark", toggleTheme: () => { } })
 
 export function UseContextExample() {
@@ -38,24 +40,7 @@ export function UseContextExample() {
                         <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <pre className="text-sm overflow-x-auto">
-                            <code>{`// 1. Crear el contexto
-const ThemeContext = createContext({ 
-  theme: "dark", 
-  toggleTheme: () => {} 
-})
-
-// 2. Proveer el contexto
-<ThemeContext.Provider value={{ theme, toggleTheme }}>
-  <App />
-</ThemeContext.Provider>
-
-// 3. Consumir el contexto
-function Component() {
-  const { theme, toggleTheme } = useContext(ThemeContext)
-  return <button onClick={toggleTheme}>{theme}</button>
-}`}</code>
-                        </pre>
+                        <CodeBlock code={code} />
                     </CardContent>
                 </Card>
             </div>

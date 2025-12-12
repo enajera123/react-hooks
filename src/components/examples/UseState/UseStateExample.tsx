@@ -1,10 +1,9 @@
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../ui/card"
+import { Input } from "../../ui/input"
+import code from "@/lib/data/examples/useState.txt?raw"
+import { CodeBlock } from "../../common/CodeBlock"
 export function UseStateExample() {
-    const [count, setCount] = useState(0)
     const [name, setName] = useState("")
 
     return (
@@ -16,30 +15,6 @@ export function UseStateExample() {
                     y una función para actualizarlo.
                 </p>
             </div>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle>Ejemplo Práctico: Contador</CardTitle>
-                    <CardDescription>Haz clic en los botones para incrementar o decrementar el contador</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                    <div className="flex items-center justify-center gap-4">
-                        <Button onClick={() => setCount(count - 1)} size="lg">
-                            -
-                        </Button>
-                        <div className="text-6xl font-bold text-accent min-w-30 text-center">{count}</div>
-                        <Button onClick={() => setCount(count + 1)} size="lg">
-                            +
-                        </Button>
-                    </div>
-                    <div className="flex gap-2">
-                        <Button onClick={() => setCount(0)} variant="outline" className="flex-1">
-                            Reiniciar
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
-
             <Card>
                 <CardHeader>
                     <CardTitle>Ejemplo: Input Controlado</CardTitle>
@@ -63,14 +38,7 @@ export function UseStateExample() {
                     <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <pre className="text-sm overflow-x-auto">
-                        <code>{`const [count, setCount] = useState(0)
-const [name, setName] = useState("")
-
-// Actualizar el estado
-setCount(count + 1)
-setName(e.target.value)`}</code>
-                    </pre>
+                    <CodeBlock code={code} />
                 </CardContent>
             </Card>
         </div>

@@ -1,0 +1,13 @@
+const inputRef = useRef<HTMLInputElement>(null)
+
+// Acceder al elemento DOM
+const focusInput = () => {
+    inputRef.current?.focus()
+}
+
+return (
+    <div>
+        <input ref={inputRef} placeholder="Haz clic en el botón para enfocar aquí" />
+        <button onClick={focusInput}>Enfocar Input</button>
+    </div>
+)

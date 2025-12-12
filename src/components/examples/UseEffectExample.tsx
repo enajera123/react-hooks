@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { Button } from "../ui/button"
-
+import code from "@/lib/data/examples/useEffect.txt?raw"
+import { CodeBlock } from "../common/CodeBlock"
 export function UseEffectExample() {
     const [seconds, setSeconds] = useState(0)
     const [isRunning, setIsRunning] = useState(false)
@@ -59,18 +60,7 @@ export function UseEffectExample() {
                     <CardTitle className="text-lg">Código del Ejemplo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <pre className="text-sm overflow-x-auto">
-                        <code>{`useEffect(() => {
-  if (!isRunning) return
-  
-  const interval = setInterval(() => {
-    setSeconds(s => s + 1)
-  }, 1000)
-  
-  // Función de limpieza
-  return () => clearInterval(interval)
-}, [isRunning]) // Se ejecuta cuando isRunning cambia`}</code>
-                    </pre>
+                    <CodeBlock code={code} />
                 </CardContent>
             </Card>
 

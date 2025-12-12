@@ -1,9 +1,9 @@
 import type { HookType } from "@/lib/data/hooks"
-import { UseStateExample } from "./UseStateExample"
+import { UseStateExample } from "./UseState/UseStateExample"
 import { UseEffectExample } from "./UseEffectExample"
 import { UseRefExample } from "./UseRefExample"
 import { UseMemoExample } from "./UseMemoExample"
-import { UseCallbackExample } from "./UseCallbackExample"
+import { UseCallbackExample } from "./UseCallback/UseCallbackExample"
 import { UseContextExample } from "./UseContextExample"
 
 export function HookBuilder({ hookType }: { hookType: HookType }) {

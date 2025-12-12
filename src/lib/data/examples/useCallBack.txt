@@ -1,0 +1,16 @@
+﻿// Sin useCallback - se recrea en cada render
+const increment = () => {
+    setCount(c => c + 1)
+}
+
+// Con useCallback - mantiene la referencia
+const increment = useCallback(() => {
+    setCount(c => c + 1)
+}, []) // Dependencias vacías = función estable
+// Uso en el componente
+return (
+    <div>
+        <Button onClick={increment}>Incrementar</Button>
+        <span>{count}</span>
+    </div>
+)

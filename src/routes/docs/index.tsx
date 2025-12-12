@@ -1,6 +1,6 @@
 "use client"
 
-import { HookBuilder } from '@/components/examples/HookBuildert'
+import { HookBuilder } from '@/components/examples/HookBuilder'
 import { useCommonStore } from '@/store/useCommonStore'
 
 function DocsPage() {

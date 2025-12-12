@@ -1,0 +1,16 @@
+// 1. Crear el contexto
+const ThemeContext = createContext({
+    theme: "dark",
+    toggleTheme: () => { }
+})
+
+// 2. Proveer el contexto
+<ThemeContext.Provider value = {{ theme, toggleTheme }}>
+    <App />
+</ThemeContext.Provider>
+
+// 3. Consumir el contexto
+function Component() {
+    const { theme, toggleTheme } = useContext(ThemeContext)
+    return <button onClick={toggleTheme}>{theme}</button>
+}
