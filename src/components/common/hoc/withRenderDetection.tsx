@@ -7,72 +7,81 @@ interface WithRenderDetectionOptions {
     skipFirstRender?: boolean
 }
 
-export function withRenderDetection<P extends object>(
-    Component: ComponentType<P>,
+export function withRenderDetection<T extends object>(
+    Component: ComponentType<T>,
     options: WithRenderDetectionOptions = {}
 ) {
     const {
         animationType = "flash",
         duration = 400,
         showCounter = true,
-        skipFirstRender = true,
     } = options
 
-    return function WithRenderDetectionWrapper(props: P) {
+    return function WithRenderDetectionWrapper(props: T) {
         const [renderCount, setRenderCount] = useState(0)
         const [isAnimating, setIsAnimating] = useState(false)
-        const prevPropsRef = useRef<P | null>(null)
+        const prevPropsRef = useRef<T | null>(null)
         const isFirstRenderRef = useRef(true)
 
         useEffect(() => {
+            const prev = prevPropsRef.current
+
             if (isFirstRenderRef.current) {
                 isFirstRenderRef.current = false
                 prevPropsRef.current = props
-                if (!skipFirstRender) {
-                    setRenderCount(1)
-                }
                 return
             }
+            const propsChanged =
+                !prev ||
+                Object.keys(props).some(
+                    (key) => (props as any)[key] !== (prev as any)[key]
+                )
 
-            setRenderCount((prev) => prev + 1)
-            setIsAnimating(true)
-            const timer = setTimeout(() => setIsAnimating(false), duration)
-            return () => clearTimeout(timer)
+            if (propsChanged) {
+                setRenderCount((prev) => prev + 1)
+                setIsAnimating(true)
+
+                const timer = setTimeout(() => setIsAnimating(false), duration)
+                prevPropsRef.current = props
+                return () => clearTimeout(timer)
+            }
+            prevPropsRef.current = props
         }, [props])
+
 
         const animationStyles = {
             flash: {
                 container: "relative",
-                overlay: isAnimating 
-                    ? "absolute inset-0 bg-green-400/50 pointer-events-none z-10 animate-flash-fade" 
+                overlay: isAnimating
+                    ? "absolute inset-0 bg-green-400/50 pointer-events-none z-10"
                     : "",
-                component: isAnimating ? "scale-105" : ""
+                component: ""
             },
             pulse: {
                 container: "relative",
-                overlay: isAnimating 
-                    ? "absolute inset-0 bg-blue-400/20 pointer-events-none z-10 animate-pulse" 
+                overlay: isAnimating
+                    ? "absolute inset-0 bg-blue-400/20 pointer-events-none z-10 animate-pulse"
                     : "",
                 component: ""
             },
             shake: {
                 container: "relative",
-                overlay: isAnimating 
-                    ? "absolute inset-0 bg-yellow-400/25 pointer-events-none z-10" 
+                overlay: isAnimating
+                    ? "absolute inset-0 bg-yellow-400/25 pointer-events-none z-10"
                     : "",
                 component: isAnimating ? "animate-shake" : ""
             },
             glow: {
                 container: "relative",
-                overlay: isAnimating 
-                    ? "absolute inset-0 bg-gradient-to-r from-transparent via-green-400/40 to-transparent pointer-events-none z-10 animate-glow-sweep" 
+                overlay: isAnimating
+                    ? "absolute inset-0 bg-gradient-to-r from-transparent via-green-400/40 to-transparent pointer-events-none z-10 animate-glow-sweep"
                     : "",
                 component: ""
             },
             border: {
                 container: "relative",
-                overlay: isAnimating 
-                    ? "absolute inset-0 border-4 border-green-400 pointer-events-none z-10 animate-border-pulse" 
+                overlay: isAnimating
+                    ? "absolute inset-0 border-4 border-green-400 pointer-events-none z-10 animate-border-pulse"
                     : "absolute inset-0 border-4 border-transparent pointer-events-none z-10",
                 component: ""
             },
@@ -83,12 +92,10 @@ export function withRenderDetection<P extends object>(
         return (
             <div className="relative inline-block">
                 <div className={`${currentAnimation.container} transition-all duration-300`}>
-                    {/* Overlay de animación */}
                     {currentAnimation.overlay && (
                         <div className={currentAnimation.overlay} />
                     )}
-                    
-                    {/* Componente */}
+
                     <div className={`relative z-0 transition-transform duration-300 ${currentAnimation.component}`}>
                         <Component {...props} />
                     </div>

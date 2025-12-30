@@ -5,21 +5,20 @@ import code from "@/lib/data/examples/useCallBack.txt?raw"
 import { CodeBlock } from "../../common/CodeBlock"
 import ChildComponent from "./ChildComponent"
 import { withRenderDetection } from "@/components/common/hoc/withRenderDetection"
-const RenderDetectionChildComponent = withRenderDetection(ChildComponent, { animationType: "border", showCounter: false, skipFirstRender: true })
+import ChildComponentWithCallback from "./ChildComponentWithCallback"
+const RenderDetectionChildComponent = withRenderDetection(ChildComponent, { animationType: "flash", showCounter: false, skipFirstRender: true })
+const RenderDetectionChildComponentWithCallback = withRenderDetection(ChildComponentWithCallback, { animationType: "flash", showCounter: false, skipFirstRender: true })
 export function UseCallbackExample() {
     const [count, setCount] = useState(0)
-    const [otherState, setOtherState] = useState(0)
+    const [reset, setReset] = useState(false)
 
-    const increment = useCallback(() => {
-        setCount((c) => c + 1)
-    }, [])
     const handleClick = useCallback(() => {
         console.log("Botón del hijo clickeado", count)
-    }, [])
+    }, [reset])
     const handleClickWithoutUseCallback = () => {
         console.log("Botón del hijo clickeado", count)
     }
-    console.log("Renderiza padre")
+    
     return (
         <div className="space-y-6">
             <div>
@@ -36,30 +35,20 @@ export function UseCallbackExample() {
                     <CardDescription>La función increment mantiene su referencia entre renders</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <RenderDetectionChildComponent onClick={handleClickWithoutUseCallback} />
+                    <div className="flex flex-wrap gap-2">
+                        <RenderDetectionChildComponent onClick={handleClickWithoutUseCallback} />
+                        <RenderDetectionChildComponentWithCallback onClick={handleClick} />
+                    </div>
+                    <p className="italic">Incrementador de contador: {count}</p>
                     <div className="text-center space-y-4">
-                        <div className="text-5xl font-bold text-accent">{count}</div>
                         <div className="flex justify-start gap-3">
-                            <Button onClick={increment}>
+                            <Button onClick={() => setCount((prev) => prev + 1)} >
                                 Incrementar
                             </Button>
-                            <Button onClick={() => setCount(0)} variant="outline" size="lg">
+                            <Button onClick={() => { setCount(0); setReset((prev) => !prev); }} variant="outline" size="lg">
                                 Reset
                             </Button>
                         </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-border">
-                        <p className="text-sm font-medium mb-2">Otro estado (para forzar re-render):</p>
-                        <div className="flex items-center gap-4">
-                            <Button onClick={() => setOtherState(otherState + 1)} variant="secondary">
-                                Actualizar otro estado
-                            </Button>
-                            <span className="text-muted-foreground">Valor: {otherState}</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                            Aunque este estado cambie, la función increment mantiene su referencia
-                        </p>
                     </div>
                 </CardContent>
             </Card>

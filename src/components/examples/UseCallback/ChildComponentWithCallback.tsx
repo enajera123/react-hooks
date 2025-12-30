@@ -2,18 +2,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import React from "react"
 
-interface ChildComponentProps {
+interface ChildComponentWithCallbackProps {
     onClick: () => void
 }
-function ChildComponent({ onClick }: ChildComponentProps) {
+function ChildComponentWithCallback({ onClick }: ChildComponentWithCallbackProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Componente Hijo sin useCallback implementado</CardTitle>
+                <CardTitle>Componente Hijo con useCallback implementado</CardTitle>
             </CardHeader>
             <CardContent>
                 <p>Este componente recibe una función <span className="text-yellow-500 font-bold">onClick()</span> como prop.</p>
-                <p>El componente se renderiza en cada render del componente padre.</p>
+                <p>El componente se renderiza unicamente cuando la referencia de la función cambia.</p>
             </CardContent>
             <CardFooter>
                 <Button onClick={onClick}>
@@ -24,4 +24,4 @@ function ChildComponent({ onClick }: ChildComponentProps) {
     )
 }
 
-export default React.memo(ChildComponent)
+export default React.memo(ChildComponentWithCallback)
